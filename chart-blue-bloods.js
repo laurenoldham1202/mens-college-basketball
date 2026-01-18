@@ -5,18 +5,15 @@ const data = [
     { team: "KENTUCKY", miles: 440, color: "#0033A0" },
     { team: "UNC", miles: 457, color: "#7BAFD4" }
 ];
+
 const referenceLines = [
     { value: 394, label: "Blue Bloods mean", align: "right" },
     { value: 588, label: "All school mean", align: "inside" }
 ];
 
-
-
 const margin = { top: 50, right: 85, bottom: 50, left: 80 };
 const height = 400;
-
 const container = d3.select("#chart-blue-bloods");
-
 
 function render() {
     if (container.empty()) return;

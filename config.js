@@ -743,26 +743,28 @@ year's tournament.
             description: `Like many sports, the NCAA divides schools into discrete, geographically clustered conferences.
             Of the 32 D1 conferences, only 11 have produced top seeded teams in March Madness:
             
-            <div class="conference-list" style="margin-top: 1rem;">
-              <div class="conference-row">
-                  <div class="conference" style="background: #7F3C8D">American Athletic Conference (544 miles)</div>
-                  <div class="conference" style="background: #11A579">Atlantic 10 Conference (969 miles)</div>
-                  <div class="conference" style="background: #3969AC">Atlantic Coast Conference (600 miles)</div>
-                  <div class="conference" style="background: #F2B701">Big 12 Conference (545 miles)</div>
-              </div>
-              <div class="conference-row">
-                  <div class="conference" style="background: #E73F74">Big East Conference (700 miles)</div>
-                  <div class="conference" style="background: #80BA5A">Big Ten Conference (698 miles)</div>
-                  <div class="conference" style="background: #E68310">Missouri Valley Conference (671 miles)</div>
-                  <div class="conference" style="background: #008695">Mountain West Conference (629 miles)</div>
-              </div>
-              <div class="conference-row">
-                  <div class="conference" style="background: #CF1C90">Pac-12 Conference (811 miles)</div>
-                  <div class="conference" style="background: #f97b72">Southeastern Conference (562 miles)</div>
-                  <div class="conference" style="background: #4b4b8f">West Coast Conference (602 miles)</div>
-                  <div class="conference" style="background: transparent"></div>
-              </div>
-            </div>
+            <div id="chart-conferences" style="width:100%; max-width:1000px;"></div>
+
+<!--            <div class="conference-list" style="margin-top: 1rem;">-->
+<!--              <div class="conference-row">-->
+<!--                  <div class="conference" style="background: #7F3C8D">American Athletic Conference (544 miles)</div>-->
+<!--                  <div class="conference" style="background: #11A579">Atlantic 10 Conference (969 miles)</div>-->
+<!--                  <div class="conference" style="background: #3969AC">Atlantic Coast Conference (600 miles)</div>-->
+<!--                  <div class="conference" style="background: #F2B701">Big 12 Conference (545 miles)</div>-->
+<!--              </div>-->
+<!--              <div class="conference-row">-->
+<!--                  <div class="conference" style="background: #E73F74">Big East Conference (700 miles)</div>-->
+<!--                  <div class="conference" style="background: #80BA5A">Big Ten Conference (698 miles)</div>-->
+<!--                  <div class="conference" style="background: #E68310">Missouri Valley Conference (671 miles)</div>-->
+<!--                  <div class="conference" style="background: #008695">Mountain West Conference (629 miles)</div>-->
+<!--              </div>-->
+<!--              <div class="conference-row">-->
+<!--                  <div class="conference" style="background: #CF1C90">Pac-12 Conference (811 miles)</div>-->
+<!--                  <div class="conference" style="background: #f97b72">Southeastern Conference (562 miles)</div>-->
+<!--                  <div class="conference" style="background: #4b4b8f">West Coast Conference (602 miles)</div>-->
+<!--                  <div class="conference" style="background: transparent"></div>-->
+<!--              </div>-->
+<!--            </div>-->
             Does the geography of these conferences affect their travel distance during March Madness?
             `,
             onChapterEnter: [],

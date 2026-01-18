@@ -15,7 +15,9 @@ const margin = { top: 50, right: 85, bottom: 50, left: 80 };
 const height = 400;
 const container = d3.select("#chart-blue-bloods");
 
-function render() {
+function renderBB() {
+    container.select("svg").remove();
+
     if (container.empty()) return;
 
     const svg = container.append("svg")
@@ -142,7 +144,7 @@ function render() {
         .each(function () {
             const bbox = this.getBBox();
 
-            g.insert("rect", "text")
+            g.insert("rect", () => this)
                 .attr("x", bbox.x - 4)
                 .attr("y", bbox.y - 2)
                 .attr("width", bbox.width + 8)
@@ -151,10 +153,12 @@ function render() {
                 .attr("fill", "#fff")
                 .attr("opacity", 0.95);
         });
+
+
 }
 
 // Initial render
-render();
+renderBB();
 
 // Responsive resize
-window.addEventListener("resize", render);
+window.addEventListener("resize", renderBB);

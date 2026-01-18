@@ -319,27 +319,30 @@ year's tournament.
               <br>4 seeds traveling
             the furthest of all top ranked seeds</strong>.
    
-            <div class="seed-hl-row">
-                <div class="seed-hl" style="background: #80bad1">
-                    <div class="seed-hl-title" style="color: white !important;">1 SEED</div>
-                    <div class="seed-hl-text">353 miles</div>
-                </div> 
-               
-               <div class="seed-hl" style="background: #5694c1">
-                    <div class="seed-hl-title">2 SEED</div>
-                    <div class="seed-hl-text">482 miles</div>
-                </div>
-                       
-               <div class="seed-hl" style="background: #2c6db1">
-                    <div class="seed-hl-title">3 SEED</div>
-                    <div class="seed-hl-text">689 miles</div>
-                </div>
-                       
-               <div class="seed-hl" style="background: #0146a1">
-                    <div class="seed-hl-title">4 SEED</div>
-                    <div class="seed-hl-text">829 miles</div>
-               </div>
-            </div>
+<!--            <div class="seed-hl-row">-->
+<!--                <div class="seed-hl" style="background: #80bad1">-->
+<!--                    <div class="seed-hl-title" style="color: white !important;">1 SEED</div>-->
+<!--                    <div class="seed-hl-text">353 miles</div>-->
+<!--                </div> -->
+<!--               -->
+<!--               <div class="seed-hl" style="background: #5694c1">-->
+<!--                    <div class="seed-hl-title">2 SEED</div>-->
+<!--                    <div class="seed-hl-text">482 miles</div>-->
+<!--                </div>-->
+<!--                       -->
+<!--               <div class="seed-hl" style="background: #2c6db1">-->
+<!--                    <div class="seed-hl-title">3 SEED</div>-->
+<!--                    <div class="seed-hl-text">689 miles</div>-->
+<!--                </div>-->
+<!--                       -->
+<!--               <div class="seed-hl" style="background: #0146a1">-->
+<!--                    <div class="seed-hl-title">4 SEED</div>-->
+<!--                    <div class="seed-hl-text">829 miles</div>-->
+<!--               </div>-->
+<!--            </div>-->
+            
+            <div id="chart-chapter-5"></div>
+
             `,
             location: {
                 center: [-113.72917, 48.58938],

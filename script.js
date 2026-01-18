@@ -616,6 +616,14 @@ function enterExploreMode(storyMode = false) {
     resetAllFilters();
     clearStoryLayers();  // clear all story-mode only layers
     infoBtnSeed.addClass('visible');  // display 'seed >' button
+
+
+
+    // REMOVEME
+    map.setLayoutProperty('schools', 'visibility', 'none')
+
+
+
 }
 
 function storyScroll(sites, schools) {
@@ -1211,7 +1219,7 @@ function onLoad(data) {
     });
 
     $('#compare').on('click', () => {
-        console.log('click');
+        // console.log('click');
 
         // TODO set default comparison if no school selected?
         $('#dropdown-1').text(filters.school !== 'all' ? filters.school : 'Kentucky');
@@ -1332,6 +1340,78 @@ function onLoad(data) {
         // generate all map layers for main and comparison maps
         createAllLayers(schools, sites, map);
         createAllLayers(schools, sites, compareMap);
+
+        map.addLayer({
+            id: 'points-circle',
+            type: 'circle',
+            source: {
+                type: 'geojson',
+                data: schools,
+            },
+            paint: {
+                'circle-radius': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+
+                    // Low zoom (CONUS view)
+                    3, [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'mean_dist'],
+                        150, 4,
+                        300, 6,
+                        600, 10,
+                        1000, 14,
+                        1400, 16,
+                        1700, 17,
+                        2200, 18
+                    ],
+
+                    // High zoom (local view)
+                    8, [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'mean_dist'],
+                        150, 8,
+                        300, 12,
+                        600, 18,
+                        1000, 24,
+                        1400, 27,
+                        1700, 28,
+                        2200, 30
+                    ]
+                ],
+                'circle-color': [
+                    'interpolate',
+                    ['linear'],
+                    ['get', 'mean_dist'],
+                    // ['#ffffd4','#fed98e','#fe9929','#cc4c02']
+                    150,  '#fde7d3',  // very light peach
+                    300,  '#f9cfa5',
+                    600,  '#f6b26b',
+                    1000, '#ec8f3a',  // strong orange
+                    1400, '#d8731f',
+                    1700, '#c65f12',
+                    2200, '#a84300'   // deep rust (cap)
+                ],
+
+                'circle-opacity': 1,
+                'circle-stroke-color': 'rgba(90, 60, 30, 0.6)',
+                'circle-stroke-width': 1
+            }
+        });
+
+        map.on('mousemove', 'points-circle', (e) => {
+            console.log(e.features[0].properties)
+        })
+
+        // filter for selected conference OR display all for 'all conference' selection (filter for features that have school common name field)
+        const confFilter = filters.conference !== 'all' ? ['==', 'conference', filters.conference] : ['has', 'school_common_name'];
+        // filter for seeds that have seed aggregate field or display all for all seed selection
+        const seedFilter = ['has', filters.seed === 'all' ? 'school_common_name' : filters.seed];
+        // apply multiple filters with 'all'
+        map.setFilter('points-circle', ['all', confFilter, seedFilter]);
 
         // map events
         onSiteHover();
@@ -2236,6 +2316,7 @@ function onSchoolHover() {
     let hoverId = null;
 
     map.on('mousemove', 'schools', (e) => {
+        console.log(e.features[0].properties)
         // change cursor to pointer to indicate clickability
         this.map.getCanvas().style.cursor = 'pointer';
 
@@ -2275,6 +2356,7 @@ function onSiteHover() {
     layers.forEach(layer => {
         // TODO fix bug where site label doesnt work over a school, ex: Iowa site in Nashville overwitten by Vandy
         map.on('mousemove', layer, (e) => {
+            console.log(layer)
             applySiteLabelStyles(e.features[0].properties);
         });
 

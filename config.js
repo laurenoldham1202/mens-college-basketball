@@ -341,7 +341,7 @@ year's tournament.
 <!--               </div>-->
 <!--            </div>-->
             
-            <div id="chart-chapter-5"></div>
+            <div id="chart-chapter-5" style="margin-top: 1rem;"></div>
 
             `,
             location: {
@@ -476,28 +476,29 @@ year's tournament.
             prestigious (and hated) teams in the sport. But more often than not, they <em>do</em> prevail during March 
             Madness. While the Blue Blood status is up for debate for many teams, the core 4 are:
             
-            <br><br>
-            <div class="seed-hl-row">
-                <div class="seed-hl" style="background:#003087">
-                  <div class="seed-hl-title">DUKE</div>
-                  <div class="seed-hl-text">299 miles</div>
-                </div>
-                <div class="seed-hl" style="background:#0051BA">
-                  <div class="seed-hl-title">KANSAS</div>
-                  <div class="seed-hl-text">395 miles</div>
-                </div>
-              <div class="seed-hl" style="background:#0033A0">
-                  <div class="seed-hl-title">KENTUCKY</div>
-                  <div class="seed-hl-text">440 miles</div>
-              </div>
-              <div class="seed-hl" style="background:#7BAFD4">
-                  <div class="seed-hl-title">UNC</div>
-                  <div class="seed-hl-text">457 miles</div>
-              </div>
+         
+            <div id="chart-blue-bloods" style="width:100%; max-width:900px;"></div>
+
+<!--            <div class="seed-hl-row">-->
+<!--                <div class="seed-hl" style="background:#003087">-->
+<!--                  <div class="seed-hl-title">DUKE</div>-->
+<!--                  <div class="seed-hl-text">299 miles</div>-->
+<!--                </div>-->
+<!--                <div class="seed-hl" style="background:#0051BA">-->
+<!--                  <div class="seed-hl-title">KANSAS</div>-->
+<!--                  <div class="seed-hl-text">395 miles</div>-->
+<!--                </div>-->
+<!--              <div class="seed-hl" style="background:#0033A0">-->
+<!--                  <div class="seed-hl-title">KENTUCKY</div>-->
+<!--                  <div class="seed-hl-text">440 miles</div>-->
+<!--              </div>-->
+<!--              <div class="seed-hl" style="background:#7BAFD4">-->
+<!--                  <div class="seed-hl-title">UNC</div>-->
+<!--                  <div class="seed-hl-text">457 miles</div>-->
+<!--              </div>-->
 
             </div>
             
-            <br>
             
             <!-- Duke: 299, 200-->
             <!-- UK: 440, 327-->

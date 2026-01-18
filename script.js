@@ -2,6 +2,7 @@
 // TODO 2: Remove lakes/smaller water features in basemap for more clarity
 // TODO 3: Plot school layer on top of secondary seeds
 // TODO 4: Combine all resize events/remove
+// TODO 5: MOVE FIRST CHART INTO ITS OWN sCRIPT
 
 const layerTypes = {
     'fill': ['fill-opacity'],
@@ -620,7 +621,7 @@ function enterExploreMode(storyMode = false) {
 
 
     // REMOVEME
-    map.setLayoutProperty('schools', 'visibility', 'none')
+    // map.setLayoutProperty('schools', 'visibility', 'none')
 
 
 
@@ -1197,6 +1198,13 @@ function onLoad(data) {
     const d1 = data[6];
     const tourney = data[7];
 
+    const schoolColorMap = new Map(
+        colors.features.map(d => [d.name, d.color_1])
+    );
+
+    renderSeedBoxplot(sites, schoolColorMap);
+
+
     $('#toggle-explore-mode').on('click', () => {
         enterExploreMode();
     });
@@ -1399,11 +1407,14 @@ function onLoad(data) {
                 'circle-opacity': 1,
                 'circle-stroke-color': 'rgba(90, 60, 30, 0.6)',
                 'circle-stroke-width': 1
+            },
+            layout: {
+                visibility: 'none'
             }
         });
 
         map.on('mousemove', 'points-circle', (e) => {
-            console.log(e.features[0].properties)
+            // console.log(e.features[0].properties)
         })
 
         // filter for selected conference OR display all for 'all conference' selection (filter for features that have school common name field)
@@ -1450,6 +1461,9 @@ function onLoad(data) {
     });
 }
 
+window.addEventListener("resize", () => {
+    sitesJson.then(renderSeedBoxplot);
+});
 function storyModeConfDisplay(matchArray = null) {
     resetExtent(true);
     styleConferences();
@@ -2316,7 +2330,7 @@ function onSchoolHover() {
     let hoverId = null;
 
     map.on('mousemove', 'schools', (e) => {
-        console.log(e.features[0].properties)
+        // console.log(e.features[0].properties)
         // change cursor to pointer to indicate clickability
         this.map.getCanvas().style.cursor = 'pointer';
 
@@ -2356,7 +2370,7 @@ function onSiteHover() {
     layers.forEach(layer => {
         // TODO fix bug where site label doesnt work over a school, ex: Iowa site in Nashville overwitten by Vandy
         map.on('mousemove', layer, (e) => {
-            console.log(layer)
+            // console.log(layer)
             applySiteLabelStyles(e.features[0].properties);
         });
 

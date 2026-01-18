@@ -746,8 +746,8 @@ span.material-icons {
     cursor: pointer;
 }
 
-.skip-story-btn {
-    background: #E27600;
+#toggle-explore-mode {
+    background: #E27600 !important;
     color: whitesmoke;
     position: fixed;
     bottom: 1.5rem;
@@ -756,7 +756,7 @@ span.material-icons {
     border: 1px solid whitesmoke;
 }
 
-.skip-story-btn:hover {
+#toggle-explore-mode:hover {
     background: #C16501;
     color: whitesmoke;
 }

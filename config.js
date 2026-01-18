@@ -25,7 +25,7 @@ The map shows the overall top ranked teams (1 seeds) from the 2012 NCAA Men's Ba
 traveled an average distance of 147 miles to their first-round game.
 </div>
 
-<div id="boxplot-seed-mean"></div>
+<!--<div id="boxplot-seed-mean"></div>-->
 
 
 <div class="scroll-container" style="width: 100%; overflow: hidden;">
@@ -521,223 +521,223 @@ year's tournament.
             onChapterEnter: [],
             onChapterExit: []
         },
-        {
-            id: 'chapter-10',  // 10
-            title: 'Single Shortest Travel Distance',
-            image: '',
-            description: `The <strong>University of Arizona</strong> traveled the single shortest distance, barely leaving campus to travel 
-            <strong>less than half a mile</strong> to their first round site in Tucson in 2000 as a 1 seed.
-             
-             <br><br>
-             Unfortunately for the Wildcats,
-            the close proximity didn't give them enough of a boost to beat out Wisconsin in the second round of the 
-            tournament.`,
-            onChapterEnter: [],
-            onChapterExit: []
-        },
-        {
-            id: 'chapter-11',  // 11
-            title: 'Weighted Distance',
-            image: '',
-            description: `
-            Making apples-to-apples comparisons amongst schools based on their mean travel distance is not optimal - 
-            travel distances are expected to fluctuate based on the frequency of appearances of each seed in a school's
-            history.
-            
-            <br><br>
-            To allow for more accurate comparison amongst schools, weights were applied based on seed values.
-            
-             <div class="seed-hl-row">
-                <div class="seed-hl" style="background: #80bad1">
-                    <div class="seed-hl-title" style="color:white">1 SEED</div>
-                    <div class="seed-hl-text">1.00</div>
-                </div> 
-               
-               <div class="seed-hl" style="background: #5694c1">
-                    <div class="seed-hl-title">2 SEED</div>
-                    <div class="seed-hl-text">0.73</div>
-                </div>
-                       
-               <div class="seed-hl" style="background: #2c6db1">
-                    <div class="seed-hl-title">3 SEED</div>
-                    <div class="seed-hl-text">0.51</div>
-                </div>
-                       
-               <div class="seed-hl" style="background: #0146a1">
-                    <div class="seed-hl-title">4 SEED</div>
-                    <div class="seed-hl-text">0.43</div>
-               </div>
-            </div>
-            <br>
-            The weights are derived from the overall seed averages. Based on data from 1985 to 2019, <strong>2 seeds
-            travel ~1.3 times farther than 1 seeds</strong>, <strong>3 seeds travel nearly double the distance of 1
-            seeds</strong>, and <strong>4 seeds travel ~2.3 times farther than 1 seeds.</strong>
-  <!-- <div class="seed-hl-row">-->
-<!--                <div class="seed-hl" style="background: #80bad1">-->
-<!--                    <div class="seed-hl-title">1 SEED</div>-->
-<!--                    <div class="seed-hl-text">1.00</div>-->
-<!--                </div> -->
-<!--               -->
-<!--               <div class="seed-hl" style="background: #5694c1">-->
-<!--                    <div class="seed-hl-title">2 SEED</div>-->
-<!--                    <div class="seed-hl-text">0.75</div>-->
-<!--                </div>-->
-<!--                       -->
-<!--               <div class="seed-hl" style="background: #2c6db1">-->
-<!--                    <div class="seed-hl-title">3 SEED</div>-->
-<!--                    <div class="seed-hl-text">0.50</div>-->
-<!--                </div>-->
-<!--                       -->
-<!--               <div class="seed-hl" style="background: #0146a1">-->
-<!--                    <div class="seed-hl-title">4 SEED</div>-->
-<!--                    <div class="seed-hl-text">0.25</div>-->
-<!--               </div>-->
-<!--            </div>-->
-<!--            <br>-->
-<!--            The weights are roughly proportional to the pool of first round site locations. For the 16 top seeded teams,-->
-<!--            there are 16 possible (non-unique) site locations. 1 seeds get premiere geographic preference (~100% of -->
-<!--            teams get optimal placement). 2 seeds get top pick from the remaining pool (12/16), then 3 seeds from that -->
-<!--            remaining pool (8/16), and finally, 4 seeds get the remaining pick (4/16).-->
-            `,
-            location: {
-                center: { lon: -95.91291, lat: 36.54204 },
-                zoom: 4.8,
-                pitch: 0.00,
-                bearing: 0.00
-            },
-            onChapterEnter: [],
-            onChapterExit: []
-        },
-      {
-        id: 'chapter-12',
-        title: 'Longest Weighted Average and Overall Travel Distance',
-        image: '',
-        description: `The school with the highest mean travel distance with at least 5 appearances is <strong>St. John's University</strong>
-             in Queens, New York. The Red Storm traveled an average of <strong>1,604 miles</strong> over 5 appearances. St. John's also represents
-             the highest WEIGHTED mean travel distance at 1,332 miles.
-              
-              <br><br>Interestingly, the Red Storm have fared better geographically
-             as lower seeds than as higher seeds - they traveled 1,900+ miles in all three of their appearances as a 1 and 2 seed,
-             but only between 500-900 miles as a 3 and 4 seed. 
-             `,
-        onChapterEnter: [],
-        onChapterExit: []
-      },
-        {
-            id: 'chapter-13',  // TODO fix 13
-            title: 'Travel by Seed Discrepancies',
-            image: '',
-            description: `
-            Another school that has fared notably better as a lower seed is the <strong>University of Michigan</strong>.
-            
-            <br><br>
-            With 13 top-seeded tournament appearances since 1985, the Wolverines traveled an average of only <strong>
-            245 miles as a 4 seed</strong>, while traveling significantly higher distances as 1, 2, and 3 seeds.
-            <br><br>
-            <div class="seed-hl-row">
-                <div class="seed-hl" style="background: #80bad1">
-                    <div class="seed-hl-title">1 SEED</div>
-                    <div class="seed-hl-text">910 miles</div>
-                </div> 
-               
-               <div class="seed-hl" style="background: #5694c1">
-                    <div class="seed-hl-title">2 SEED</div>
-                    <div class="seed-hl-text">414 miles</div>
-                </div>
-                       
-               <div class="seed-hl" style="background: #2c6db1">
-                    <div class="seed-hl-title">3 SEED</div>
-                    <div class="seed-hl-text">1,027 miles</div>
-                </div>
-                       
-               <div class="seed-hl" style="background: #0146a1">
-                    <div class="seed-hl-title">4 SEED</div>
-                    <div class="seed-hl-text">245 miles</div>
-               </div>
-            </div>
-             
-            `,
-            onChapterEnter: [],
-            onChapterExit: []
-        },
-
-        {
-            id: 'chapter-14',  // TODO fix  14
-            title: 'Consistent Travel Distances',
-            image: '',
-            description: `
-            Other schools have far less varied travel distances.
-             
-            <br><br>
-            <strong>The University of Kansas</strong>, located near the exact center of the contiguous United States,
-            has an average distance range from <strong>312 miles as a 1 seed</strong> to <strong>556 miles as a 4 seed</strong>,
-            a difference of only approximately 250 miles.
-            <br><br>
-            <div class="seed-hl-row">
-                <div class="seed-hl" style="background: #80bad1">
-                    <div class="seed-hl-title">1 SEED</div>
-                    <div class="seed-hl-text">312 miles</div>
-                </div> 
-               
-               <div class="seed-hl" style="background: #5694c1">
-                    <div class="seed-hl-title">2 SEED</div>
-                    <div class="seed-hl-text">431 miles</div>
-                </div>
-                       
-               <div class="seed-hl" style="background: #2c6db1">
-                    <div class="seed-hl-title">3 SEED</div>
-                    <div class="seed-hl-text">432 miles</div>
-                </div>
-                       
-               <div class="seed-hl" style="background: #0146a1">
-                    <div class="seed-hl-title">4 SEED</div>
-                    <div class="seed-hl-text">556 miles</div>
-               </div>
-            </div>
-            `,
-            onChapterEnter: [],
-            onChapterExit: []
-        },
-
-        {
-            id: 'chapter-15',  // TODO fix 15
-            title: 'Consistent Travel Distances',
-            image: '',
-            description: `
-            A more recent top-tier program, <strong>Villanova University</strong>, has seen similar consistency and even
-            more favorable travel distances. 
-            
-            <br><br>
-            Having won two of the last 4 national titles (2016, 2018), the Wildcats
-            have an average distance range from <strong>193 miles as a 1 seed</strong> to <strong>381 miles as a 4 seed
-            </strong>, with an overall maximum distance of only 682 miles.
-            
-            <br><br>
-            <div class="seed-hl-row">
-                <div class="seed-hl" style="background: #80bad1">
-                    <div class="seed-hl-title">1 SEED</div>
-                    <div class="seed-hl-text">193 miles</div>
-                </div> 
-               
-               <div class="seed-hl" style="background: #5694c1">
-                    <div class="seed-hl-title">2 SEED</div>
-                    <div class="seed-hl-text">198 miles</div>
-                </div>
-                       
-               <div class="seed-hl" style="background: #2c6db1">
-                    <div class="seed-hl-title">3 SEED</div>
-                    <div class="seed-hl-text">297 miles</div>
-                </div>
-                       
-               <div class="seed-hl" style="background: #0146a1">
-                    <div class="seed-hl-title">4 SEED</div>
-                    <div class="seed-hl-text">381 miles</div>
-               </div>
-            </div>
-            `,
-            onChapterEnter: [],
-            onChapterExit: []
-        },
+        // {
+        //     id: 'chapter-10',  // 10
+        //     title: 'Single Shortest Travel Distance',
+        //     image: '',
+        //     description: `The <strong>University of Arizona</strong> traveled the single shortest distance, barely leaving campus to travel
+        //     <strong>less than half a mile</strong> to their first round site in Tucson in 2000 as a 1 seed.
+        //
+        //      <br><br>
+        //      Unfortunately for the Wildcats,
+        //     the close proximity didn't give them enough of a boost to beat out Wisconsin in the second round of the
+        //     tournament.`,
+        //     onChapterEnter: [],
+        //     onChapterExit: []
+        // },
+//         {
+//             id: 'chapter-11',  // 11
+//             title: 'Weighted Distance',
+//             image: '',
+//             description: `
+//             Making apples-to-apples comparisons amongst schools based on their mean travel distance is not optimal -
+//             travel distances are expected to fluctuate based on the frequency of appearances of each seed in a school's
+//             history.
+//
+//             <br><br>
+//             To allow for more accurate comparison amongst schools, weights were applied based on seed values.
+//
+//              <div class="seed-hl-row">
+//                 <div class="seed-hl" style="background: #80bad1">
+//                     <div class="seed-hl-title" style="color:white">1 SEED</div>
+//                     <div class="seed-hl-text">1.00</div>
+//                 </div>
+//
+//                <div class="seed-hl" style="background: #5694c1">
+//                     <div class="seed-hl-title">2 SEED</div>
+//                     <div class="seed-hl-text">0.73</div>
+//                 </div>
+//
+//                <div class="seed-hl" style="background: #2c6db1">
+//                     <div class="seed-hl-title">3 SEED</div>
+//                     <div class="seed-hl-text">0.51</div>
+//                 </div>
+//
+//                <div class="seed-hl" style="background: #0146a1">
+//                     <div class="seed-hl-title">4 SEED</div>
+//                     <div class="seed-hl-text">0.43</div>
+//                </div>
+//             </div>
+//             <br>
+//             The weights are derived from the overall seed averages. Based on data from 1985 to 2019, <strong>2 seeds
+//             travel ~1.3 times farther than 1 seeds</strong>, <strong>3 seeds travel nearly double the distance of 1
+//             seeds</strong>, and <strong>4 seeds travel ~2.3 times farther than 1 seeds.</strong>
+//   <!-- <div class="seed-hl-row">-->
+// <!--                <div class="seed-hl" style="background: #80bad1">-->
+// <!--                    <div class="seed-hl-title">1 SEED</div>-->
+// <!--                    <div class="seed-hl-text">1.00</div>-->
+// <!--                </div> -->
+// <!--               -->
+// <!--               <div class="seed-hl" style="background: #5694c1">-->
+// <!--                    <div class="seed-hl-title">2 SEED</div>-->
+// <!--                    <div class="seed-hl-text">0.75</div>-->
+// <!--                </div>-->
+// <!--                       -->
+// <!--               <div class="seed-hl" style="background: #2c6db1">-->
+// <!--                    <div class="seed-hl-title">3 SEED</div>-->
+// <!--                    <div class="seed-hl-text">0.50</div>-->
+// <!--                </div>-->
+// <!--                       -->
+// <!--               <div class="seed-hl" style="background: #0146a1">-->
+// <!--                    <div class="seed-hl-title">4 SEED</div>-->
+// <!--                    <div class="seed-hl-text">0.25</div>-->
+// <!--               </div>-->
+// <!--            </div>-->
+// <!--            <br>-->
+// <!--            The weights are roughly proportional to the pool of first round site locations. For the 16 top seeded teams,-->
+// <!--            there are 16 possible (non-unique) site locations. 1 seeds get premiere geographic preference (~100% of -->
+// <!--            teams get optimal placement). 2 seeds get top pick from the remaining pool (12/16), then 3 seeds from that -->
+// <!--            remaining pool (8/16), and finally, 4 seeds get the remaining pick (4/16).-->
+//             `,
+//             location: {
+//                 center: { lon: -95.91291, lat: 36.54204 },
+//                 zoom: 4.8,
+//                 pitch: 0.00,
+//                 bearing: 0.00
+//             },
+//             onChapterEnter: [],
+//             onChapterExit: []
+//         },
+      // {
+      //   id: 'chapter-12',
+      //   title: 'Longest Weighted Average and Overall Travel Distance',
+      //   image: '',
+      //   description: `The school with the highest mean travel distance with at least 5 appearances is <strong>St. John's University</strong>
+      //        in Queens, New York. The Red Storm traveled an average of <strong>1,604 miles</strong> over 5 appearances. St. John's also represents
+      //        the highest WEIGHTED mean travel distance at 1,332 miles.
+      //
+      //         <br><br>Interestingly, the Red Storm have fared better geographically
+      //        as lower seeds than as higher seeds - they traveled 1,900+ miles in all three of their appearances as a 1 and 2 seed,
+      //        but only between 500-900 miles as a 3 and 4 seed.
+      //        `,
+      //   onChapterEnter: [],
+      //   onChapterExit: []
+      // },
+      //   {
+      //       id: 'chapter-13',  // TODO fix 13
+      //       title: 'Travel by Seed Discrepancies',
+      //       image: '',
+      //       description: `
+      //       Another school that has fared notably better as a lower seed is the <strong>University of Michigan</strong>.
+      //
+      //       <br><br>
+      //       With 13 top-seeded tournament appearances since 1985, the Wolverines traveled an average of only <strong>
+      //       245 miles as a 4 seed</strong>, while traveling significantly higher distances as 1, 2, and 3 seeds.
+      //       <br><br>
+      //       <div class="seed-hl-row">
+      //           <div class="seed-hl" style="background: #80bad1">
+      //               <div class="seed-hl-title">1 SEED</div>
+      //               <div class="seed-hl-text">910 miles</div>
+      //           </div>
+      //
+      //          <div class="seed-hl" style="background: #5694c1">
+      //               <div class="seed-hl-title">2 SEED</div>
+      //               <div class="seed-hl-text">414 miles</div>
+      //           </div>
+      //
+      //          <div class="seed-hl" style="background: #2c6db1">
+      //               <div class="seed-hl-title">3 SEED</div>
+      //               <div class="seed-hl-text">1,027 miles</div>
+      //           </div>
+      //
+      //          <div class="seed-hl" style="background: #0146a1">
+      //               <div class="seed-hl-title">4 SEED</div>
+      //               <div class="seed-hl-text">245 miles</div>
+      //          </div>
+      //       </div>
+      //
+      //       `,
+      //       onChapterEnter: [],
+      //       onChapterExit: []
+      //   },
+      //
+      //   {
+      //       id: 'chapter-14',  // TODO fix  14
+      //       title: 'Consistent Travel Distances',
+      //       image: '',
+      //       description: `
+      //       Other schools have far less varied travel distances.
+      //
+      //       <br><br>
+      //       <strong>The University of Kansas</strong>, located near the exact center of the contiguous United States,
+      //       has an average distance range from <strong>312 miles as a 1 seed</strong> to <strong>556 miles as a 4 seed</strong>,
+      //       a difference of only approximately 250 miles.
+      //       <br><br>
+      //       <div class="seed-hl-row">
+      //           <div class="seed-hl" style="background: #80bad1">
+      //               <div class="seed-hl-title">1 SEED</div>
+      //               <div class="seed-hl-text">312 miles</div>
+      //           </div>
+      //
+      //          <div class="seed-hl" style="background: #5694c1">
+      //               <div class="seed-hl-title">2 SEED</div>
+      //               <div class="seed-hl-text">431 miles</div>
+      //           </div>
+      //
+      //          <div class="seed-hl" style="background: #2c6db1">
+      //               <div class="seed-hl-title">3 SEED</div>
+      //               <div class="seed-hl-text">432 miles</div>
+      //           </div>
+      //
+      //          <div class="seed-hl" style="background: #0146a1">
+      //               <div class="seed-hl-title">4 SEED</div>
+      //               <div class="seed-hl-text">556 miles</div>
+      //          </div>
+      //       </div>
+      //       `,
+      //       onChapterEnter: [],
+      //       onChapterExit: []
+      //   },
+      //
+      //   {
+      //       id: 'chapter-15',  // TODO fix 15
+      //       title: 'Consistent Travel Distances',
+      //       image: '',
+      //       description: `
+      //       A more recent top-tier program, <strong>Villanova University</strong>, has seen similar consistency and even
+      //       more favorable travel distances.
+      //
+      //       <br><br>
+      //       Having won two of the last 4 national titles (2016, 2018), the Wildcats
+      //       have an average distance range from <strong>193 miles as a 1 seed</strong> to <strong>381 miles as a 4 seed
+      //       </strong>, with an overall maximum distance of only 682 miles.
+      //
+      //       <br><br>
+      //       <div class="seed-hl-row">
+      //           <div class="seed-hl" style="background: #80bad1">
+      //               <div class="seed-hl-title">1 SEED</div>
+      //               <div class="seed-hl-text">193 miles</div>
+      //           </div>
+      //
+      //          <div class="seed-hl" style="background: #5694c1">
+      //               <div class="seed-hl-title">2 SEED</div>
+      //               <div class="seed-hl-text">198 miles</div>
+      //           </div>
+      //
+      //          <div class="seed-hl" style="background: #2c6db1">
+      //               <div class="seed-hl-title">3 SEED</div>
+      //               <div class="seed-hl-text">297 miles</div>
+      //           </div>
+      //
+      //          <div class="seed-hl" style="background: #0146a1">
+      //               <div class="seed-hl-title">4 SEED</div>
+      //               <div class="seed-hl-text">381 miles</div>
+      //          </div>
+      //       </div>
+      //       `,
+      //       onChapterEnter: [],
+      //       onChapterExit: []
+      //   },
 
         {
             id: 'chapter-16',  // 16

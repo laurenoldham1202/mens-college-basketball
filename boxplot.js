@@ -6,6 +6,8 @@ function renderSeedBoxplot(json, schoolColorMap) {
         4: "#0146a1"
     };
 
+    // console.log(schoolColorMap)
+
     const container = d3.select("#boxplot-seed-mean");
     if (container.empty()) return;
 
@@ -25,6 +27,9 @@ function renderSeedBoxplot(json, schoolColorMap) {
 
     const g = svg.append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+
+
 
     const innerHeight = height - margin.top - margin.bottom;
 
@@ -101,6 +106,15 @@ function renderSeedBoxplot(json, schoolColorMap) {
         .domain(seedDomain)
         .range([0, innerHeight])
         .padding(0.4);
+
+    // expose for updates
+    window._seedBoxplot = {
+        g,
+        x,
+        y,
+        data,
+        schoolColorMap
+    };
 
 
     // // ---- Axes ----
@@ -206,79 +220,80 @@ function renderSeedBoxplot(json, schoolColorMap) {
         .attr("stroke", "#333")
         .attr("stroke-width", 2);
 
-    // points = g.selectAll(".point")
-    //     .data(pointData)
+
+
+
+
+
+    // // ---- Points ----
+    // g.selectAll(".point")
+    //     .data(data)
     //     .enter()
     //     .append("circle")
-    //     .attr("class", "point")
     //     .attr("cx", d => x(d.distance))
-    //     .attr("cy", d => y(d.seed))
-    //     .attr("r", 3)
-    //     .attr("fill", "#999")
-    //     .attr("opacity", 0.35)
-    //     .attr("data-school", d => d.school_common_name);
-    //
-    // const comparisonLayer = g.append("g")
-    //     .attr("class", "comparison-layer");
+    //     .attr("cy", d =>
+    //         y(d.seed) + y.bandwidth() / 2 +
+    //         (Math.random() - 0.5) * y.bandwidth() * 0.4
+    //     )
+    //     .attr("r", d => {
+    //         const s = stats.find(v => v.seed === d.seed);
+    //         // make outliers stand out
+    //         // return (d.distance < s.q1 - 1.5 * s.iqr ||
+    //         //     d.distance > s.q3 + 1.5 * s.iqr)
+    //         //     ? 5
+    //         //     : 3;
+    //         return 3
+    //     })
+    //     .attr("fill", "#E27600")
+    //     .attr("opacity", 0.45)
 
-
-
-    // ---- Points ----
-    g.selectAll(".point")
+    const points = g.selectAll(".point")
         .data(data)
         .enter()
         .append("circle")
+        .attr("class", "point")
         .attr("cx", d => x(d.distance))
         .attr("cy", d =>
             y(d.seed) + y.bandwidth() / 2 +
             (Math.random() - 0.5) * y.bandwidth() * 0.4
         )
-        .attr("r", d => {
-            const s = stats.find(v => v.seed === d.seed);
-            // make outliers stand out
-            // return (d.distance < s.q1 - 1.5 * s.iqr ||
-            //     d.distance > s.q3 + 1.5 * s.iqr)
-            //     ? 5
-            //     : 3;
-            return 3
-        })
+        .attr("r", 3)
         .attr("fill", "#E27600")
         .attr("opacity", 0.45)
-
-        // ---------- INTERACTION ----------
+    // ---------- INTERACTION ----------
         .on("mouseover", function (event, d) {
-            console.log(d)
-            const color = schoolColorMap.get(d.school) || "#000";
+                const color = schoolColorMap.get(d.school) || "#000";
+
+                d3.select(this)
+                    .attr("r", 7)
+                    .attr("fill", color)
+                    .attr("opacity", 1);
+
+                tooltip
+                    .style("opacity", 1)
+                    .html(`
+              <strong>${d.school}</strong><br/>
+              Site: ${d.site}<br/>
+              Year: ${+d.year}<br/>
+              Distance: ${d.distance.toFixed(1)} miles
+            `);
+            })
+        .on("mouseout", function (event, d) {
+            const isSelected = selectedSchool === d.school;
 
             d3.select(this)
-                .attr("r", 7)
-                .attr("fill", color)
-                .attr("opacity", 1);
-
-            tooltip
-                .style("opacity", 1)
-                .html(`
-        <strong>${d.school}</strong><br/>
-        Site: ${d.site}<br/>
-        Year: ${+d.year}<br/>
-        Distance: ${d.distance.toFixed(1)} miles
-      `);
-        })
-
-        .on("mousemove", function (event) {
-            tooltip
-                .style("left", `${event.pageX + 10}px`)
-                .style("top", `${event.pageY - 28}px`);
-        })
-
-        .on("mouseout", function () {
-            d3.select(this)
-                .attr("r", 3)
-                .attr("fill", "#E27600")
-                .attr("opacity", 0.45);
+                .attr("r", isSelected ? 5 : 3)
+                .attr("fill", isSelected
+                    ? (schoolColorMap.get(d.school) || "#000")
+                    : "#E27600"
+                )
+                .attr("opacity", isSelected ? 0.9 : 0.45);
 
             tooltip.style("opacity", 0);
         });
+
+    window._seedBoxplot.points = points
+
 
 
     // ---- Titles ----
@@ -350,6 +365,12 @@ function renderSeedBoxplot(json, schoolColorMap) {
         .attr("stroke", "#c00")
         .attr("stroke-width", 2)
         .attr("stroke-dasharray", "4,3");
+
+    // ---- Comparison layer (for selected school) ----
+    const comparisonLayer = g.append("g")
+        .attr("class", "comparison-layer");
+
+    window._seedBoxplot.comparisonLayer = comparisonLayer;
 
 
 }

@@ -1846,12 +1846,85 @@ function selectStat(schools) {
     });
 }
 
+
+function updateSelectedSchool(schoolName) {
+    selectedSchool = schoolName;
+
+    const { points, data, x, y, comparisonLayer, schoolColorMap } = window._seedBoxplot;
+
+    // ---- Reset state ----
+    if (schoolName === 'all') {
+        points
+            .transition()
+            .duration(250)
+            .attr("r", 3)
+            .attr("opacity", 0.45)
+            .attr("fill", "#E27600");
+
+        comparisonLayer.selectAll("*").remove();
+        return;
+    }
+
+    // ---- Highlight points (Option 2) ----
+    points
+        .transition()
+        .duration(250)
+        .attr("opacity", d =>
+            d.school === schoolName ? 0.9 : 0.08
+        )
+        .attr("r", d =>
+            d.school === schoolName ? 8 : 3
+        )
+        .attr("fill", d =>
+            d.school === schoolName
+                ? (schoolColorMap.get(d.school) || "#000")
+                : "#E27600"
+        );
+
+    // ---- Compute school stats ----
+    const schoolData = data.filter(d => d.school === schoolName);
+    if (!schoolData.length) return;
+
+    const mean = d3.mean(schoolData, d => d.distance);
+
+    // ---- Comparison marker (Option 3) ----
+    comparisonLayer.selectAll("*").remove();
+
+    comparisonLayer.append("line")
+        .attr("x1", x(mean))
+        .attr("x2", x(mean))
+        .attr("y1", 0)
+        .attr("y2", y.range()[1])
+        .attr("stroke", schoolColorMap.get(schoolName) || "#000")
+        .attr("stroke-width", 2.5)
+        .attr("stroke-dasharray", "5,4");
+
+    const schoolY = d3.mean(schoolData.map(d => y(d.seed) + y.bandwidth()/2));
+
+    comparisonLayer.append("text")
+        .attr("x", x(mean) + 6)
+        .attr("y", schoolY)
+        .attr("text-anchor", "start")
+        .attr("dominant-baseline", "middle")
+        .style("font-size", "11px")
+        .style("font-weight", "600")
+        .style("fill", schoolColorMap.get(schoolName) || "#000")
+        .text(`${schoolName} avg`);
+
+
+}
+
+
 function selectSchoolOnMap(map, sites, storyMode = false, input = filters.school) {  // TODO iterate over layer source instead of geojson directly
 
     // reset info card to 'school' view any time a new school is selected
     resetInfoCard();
 
-    console.log('select', input)
+    console.log(input)
+
+
+    updateSelectedSchool(input);
+
 
     const filteredSites = sites.features.filter((feature) => feature.properties.school_common_name === input)
     console.log(filteredSites)

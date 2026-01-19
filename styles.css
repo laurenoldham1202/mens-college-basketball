@@ -431,7 +431,7 @@ span.material-icons {
     height: 0.75rem;
     /*cursor: pointer;*/
     /*width: 4.25%;*/
-    width: 5%;
+    width: 100%;
     background: #0146a1;
     border: 1px solid rgba(255, 255, 255, 0.4);
     cursor: pointer;
@@ -448,6 +448,7 @@ span.material-icons {
 .chapter-list {
     width: 100%;
     display: flex;
+    flex-direction: row;
 }
 
 .chapter-tooltip {

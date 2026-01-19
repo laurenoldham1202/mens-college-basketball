@@ -67,6 +67,7 @@ span.bold {
 
 .lefty {
     width: 33vw;
+    min-width: 450px;
     margin-left: 5vw;
 }
 
@@ -577,13 +578,13 @@ span.material-icons {
     }
 }
 
-@media (max-width: 1215px) {
+@media (max-width: 950px) {
     .circle {
         margin: auto 0.95rem 1rem 0.95rem;
     }
 
     #features.lefty {
-        width: 100% !important;
+        width: 100vw !important;
         margin-left: 0 !important;
     }
 
@@ -747,6 +748,7 @@ span.material-icons {
 }
 
 #toggle-explore-mode {
+    z-index: 100;
     background: #E27600 !important;
     color: whitesmoke;
     position: fixed;

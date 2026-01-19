@@ -561,6 +561,18 @@ span.material-icons {
     /*width: 10rem;*/
 }
 
+.footer {
+    position: absolute; bottom: 1rem; left: 1rem; font-size: 0.75rem;
+}
+
+
+.map-menu {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    display: flex;
+}
+
 @media (max-width: 750px) {
     #features {
         width: 90vw;
@@ -583,6 +595,9 @@ span.material-icons {
         margin: auto 0.95rem 1rem 0.95rem;
     }
 
+    .lefty {
+        min-width: 0;
+    }
     #features.lefty {
         width: 100vw !important;
         margin-left: 0 !important;
@@ -605,6 +620,10 @@ span.material-icons {
 
     #footer.light {
         margin-bottom: 0;
+    }
+
+    .footer {
+        position: static;
     }
 }
 
@@ -629,12 +648,22 @@ span.material-icons {
 }
 
 @media (max-width: 830px) {
+    .sidebar-header {
+        display: none;
+    }
+
     .sidebar {
-        top: 2.5rem;
+        /*top: 2.5rem;*/
+        top: 0;
         height: 15rem;
         left: 0;
         right: 0;
         width: auto;
+        overflow: scroll;
+    }
+
+    .map-menu {
+        top: 15.5rem;
     }
 
     .info-container {
@@ -763,12 +792,6 @@ span.material-icons {
     color: whitesmoke;
 }
 
-.map-menu {
-    position: absolute;
-    top: .5rem;
-    right: .5rem;
-    display: flex;
-}
 
 .compare-menu {
     position: fixed;

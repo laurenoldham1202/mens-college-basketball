@@ -11,7 +11,7 @@ function renderSeedBoxplot(json, schoolColorMap) {
 
     container.select("svg").remove();
 
-    const margin = { top: 50, right: 40, bottom: 50, left: 90 };
+    const margin = { top: 50, right: 10, bottom: 50, left: 40 };
     const height = 420;
     const width =
         container.node().getBoundingClientRect().width -
@@ -75,10 +75,21 @@ function renderSeedBoxplot(json, schoolColorMap) {
         .range([0, innerHeight])
         .padding(0.4);
 
-    // ---- Axes ----
+    // // ---- Axes ----
+    // g.append("g")
+    //     .attr("transform", `translate(0, ${innerHeight})`)
+    //     .call(d3.axisBottom(x));
+
     g.append("g")
         .attr("transform", `translate(0, ${innerHeight})`)
-        .call(d3.axisBottom(x));
+        .call(
+            d3.axisBottom(x)
+                .tickValues(
+                    d3.range(0, x.domain()[1] + 1, 500)
+                )
+        );
+
+
 
     g.append("g")
         .call(d3.axisLeft(y));
@@ -137,10 +148,10 @@ function renderSeedBoxplot(json, schoolColorMap) {
             //     d.distance > s.q3 + 1.5 * s.iqr)
             //     ? 5
             //     : 3;
-            return 4
+            return 3
         })
-        .attr("fill", "#444")
-        .attr("opacity", 0.65)
+        .attr("fill", "#E27600")
+        .attr("opacity", 0.45)
 
         // ---------- INTERACTION ----------
         .on("mouseover", function (event, d) {
@@ -171,7 +182,7 @@ function renderSeedBoxplot(json, schoolColorMap) {
         .on("mouseout", function () {
             d3.select(this)
                 .attr("r", 3)
-                .attr("fill", "#444")
+                .attr("fill", "#E27600")
                 .attr("opacity", 0.45);
 
             tooltip.style("opacity", 0);
@@ -193,6 +204,16 @@ function renderSeedBoxplot(json, schoolColorMap) {
         .attr("text-anchor", "middle")
         .style("font-size", "13px")
         .text("Travel distance (miles)");
+
+    g.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -innerHeight / 2)
+        .attr("y", -margin.left + 15)
+        .attr("text-anchor", "middle")
+        .style("font-size", "13px")
+        // .style("font-weight", "600")
+        .text("Seeds");
+
 
     const tooltip = d3.select("body")
         .append("div")

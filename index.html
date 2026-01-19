@@ -227,59 +227,62 @@
   </div>
 
   <div class="sidebar">
-    <h1 class="capital-font" style="text-align: center;">Going the Distance</h1>
-    <div style="text-align: center; font-size: 0.75rem;">First-Round March Madness Travel Distances Analysis</div>
-    <hr>
+    <div class="sidebar-header">
+      <h1 class="capital-font" style="text-align: center;">Going the Distance</h1>
+      <div style="text-align: center; font-size: 0.75rem;">First-Round March Madness Travel Distances Analysis</div>
+      <hr>
+    </div>
     <div class="filters-container">
 
       <!-- todo use charcoal background instead of blue? -->
-      <div class="filter-row">
-        <select id="schoolFilter" class="toolbar-select">
+      <div class="filter-row" style="display: flex; flex-direction: column; align-items: center;"">
+        <label for="schoolFilter">Select a school from the dropdown or on the map</label>
+        <select id="schoolFilter" class="toolbar-select" style="width: 70%;">
           <option value="all">All Schools</option>
         </select>
 
-        <select id="seedFilter" class="toolbar-select">
-          <option value="all">All Seeds</option>
-          <option value="oneSeed">1 Seeds</option>
-          <option value="twoSeed">2 Seeds</option>
-          <option value="threeSeed">3 Seeds</option>
-          <option value="fourSeed">4 Seeds</option>
-        </select>
+<!--        <select id="seedFilter" class="toolbar-select">-->
+<!--          <option value="all">All Seeds</option>-->
+<!--          <option value="oneSeed">1 Seeds</option>-->
+<!--          <option value="twoSeed">2 Seeds</option>-->
+<!--          <option value="threeSeed">3 Seeds</option>-->
+<!--          <option value="fourSeed">4 Seeds</option>-->
+<!--        </select>-->
       </div>
 
-      <!-- TODO create programmatically through json and use full value text -->
-      <div class="filter-row">
-      <select id="conferenceFilter" class="toolbar-select">
-          <option value="all">All Conferences</option>
-          <option value="American Athletic Conference">American Athletic Conference</option>
-          <option value="Atlantic 10 Conference">Atlantic 10 Conference</option>
-          <option value="Atlantic Coast Conference">Atlantic Coast Conference</option>
-          <option value="Big 12 Conference">Big 12 Conference</option>
-          <option value="Big East Conference">Big East Conference</option>
-          <option value="Big Ten Conference">Big Ten Conference</option>
-          <option value="Missouri Valley Conference">Missouri Valley Conference</option>
-          <option value="Mountain West Conference">Mountain West Conference</option>
-          <option value="Pac-12 Conference">Pac-12 Conference</option>
-          <option value="Southeastern Conference">Southeastern Conference</option>
-          <option value="West Coast Conference">West Coast Conference</option>
-        </select>
+<!--      &lt;!&ndash; TODO create programmatically through json and use full value text &ndash;&gt;-->
+<!--      <div class="filter-row">-->
+<!--      <select id="conferenceFilter" class="toolbar-select">-->
+<!--          <option value="all">All Conferences</option>-->
+<!--          <option value="American Athletic Conference">American Athletic Conference</option>-->
+<!--          <option value="Atlantic 10 Conference">Atlantic 10 Conference</option>-->
+<!--          <option value="Atlantic Coast Conference">Atlantic Coast Conference</option>-->
+<!--          <option value="Big 12 Conference">Big 12 Conference</option>-->
+<!--          <option value="Big East Conference">Big East Conference</option>-->
+<!--          <option value="Big Ten Conference">Big Ten Conference</option>-->
+<!--          <option value="Missouri Valley Conference">Missouri Valley Conference</option>-->
+<!--          <option value="Mountain West Conference">Mountain West Conference</option>-->
+<!--          <option value="Pac-12 Conference">Pac-12 Conference</option>-->
+<!--          <option value="Southeastern Conference">Southeastern Conference</option>-->
+<!--          <option value="West Coast Conference">West Coast Conference</option>-->
+<!--        </select>-->
 
-        <select id="statFilter" class="toolbar-select">
-          <option value="mean">Mean</option>
-          <option value="50%">Median</option>
-          <option value="min">Minimum</option>
-          <option value="max">Maximum</option>
-          <option value="count">Count (Appearances)</option>
-        </select>
-      </div>
+<!--        <select id="statFilter" class="toolbar-select">-->
+<!--          <option value="mean">Mean</option>-->
+<!--          <option value="50%">Median</option>-->
+<!--          <option value="min">Minimum</option>-->
+<!--          <option value="max">Maximum</option>-->
+<!--          <option value="count">Count (Appearances)</option>-->
+<!--        </select>-->
+<!--      </div>-->
 
-      <div class="toggle-container" style="display: flex; justify-content: center;">
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="weightedToggle">
-          <label class="custom-control-label" for="weightedToggle">Weighted Distance</label>
-        </div>
-        <span class="material-icons button-icon" data-toggle="modal" data-target="#weighted-modal" style="margin-left: 1rem;">help</span>
-      </div>
+<!--      <div class="toggle-container" style="display: flex; justify-content: center;">-->
+<!--        <div class="custom-control custom-switch">-->
+<!--          <input type="checkbox" class="custom-control-input" id="weightedToggle">-->
+<!--          <label class="custom-control-label" for="weightedToggle">Weighted Distance</label>-->
+<!--        </div>-->
+<!--        <span class="material-icons button-icon" data-toggle="modal" data-target="#weighted-modal" style="margin-left: 1rem;">help</span>-->
+<!--      </div>-->
     </div>
 
     <div id="boxplot-seed-mean"></div>
@@ -335,7 +338,7 @@
 <!--      </div>-->
 <!--    </div>-->
 
-    <div class="footer" style="position: absolute; bottom: 1rem; left: 1rem; font-size: 0.75rem;">
+    <div class="footer" style="">
       Created by Lauren Oldham,
       <a href="https://github.com/laurenoldham1202/march-madness" target="_blank">Project Repository</a>
     </div>

@@ -1,8 +1,6 @@
-// TODO 1: Fix bug where 'skip story' is behind overlay in squished screens
 // TODO 2: Remove lakes/smaller water features in basemap for more clarity
 // TODO 3: Plot school layer on top of secondary seeds
 // TODO 4: Combine all resize events/remove
-// TODO 5: MOVE FIRST CHART INTO ITS OWN sCRIPT
 
 const layerTypes = {
     'fill': ['fill-opacity'],

@@ -1,6 +1,8 @@
 // TODO 2: Remove lakes/smaller water features in basemap for more clarity
 // TODO 3: Plot school layer on top of secondary seeds
 // TODO 4: Combine all resize events/remove
+// TODO 5: Account for overlapping locations with same seed value (Gonzaga)
+// TODO 6: BUG: Kansas State 2009 and 20190 duplicates
 
 const layerTypes = {
     'fill': ['fill-opacity'],
@@ -1543,6 +1545,7 @@ function clickFooterBtn(seedsAgg, seeds, sites) {
             card3Header.html('mean distance of all <strong>3 seeds</strong> ');
             card4Header.html('mean distance of all <strong>4 seeds</strong> ');
 
+            // console.log(seedsAgg.features)
             const seedInfoCard = {
                 // header: 'All Top Seeded Schools 1985 - 2019',
                 card1: seedsAgg.features[0].properties.mean_dist.toFixed() + ' miles',
@@ -1847,6 +1850,14 @@ function selectSchoolOnMap(map, sites, storyMode = false, input = filters.school
 
     // reset info card to 'school' view any time a new school is selected
     resetInfoCard();
+
+    console.log('select', input)
+
+    const filteredSites = sites.features.filter((feature) => feature.properties.school_common_name === input)
+    console.log(filteredSites)
+    // console.log(filteredSites.map(x => {return [x.properties.site, x.properties.seed]}))
+
+    renderSchoolBoxplot(filteredSites)
 
     const lineFeatures = [];
     let min = null;
@@ -2335,6 +2346,7 @@ function createLayer(layerInfo, sourceData = { type: 'FeatureCollection', featur
         paint: layerInfo.paint,
         layout: {
             visibility: layerInfo.visibility,
+            ...(layerInfo.id === 'sites' && {'circle-sort-key': ['-', ['get', 'seed']]})
         }
     }, layerInfo.before);  // layer to place before plotting
 }
@@ -2443,3 +2455,239 @@ function triggerAnimation() {
 
 // STORYMAP: setup resize event
 window.addEventListener('resize', scroller.resize);
+
+
+
+
+
+
+function renderSchoolBoxplot(json) {
+    const seedColors = {
+        1: "#80bad1",
+        2: "#5694c1",
+        3: "#2c6db1",
+        4: "#0146a1"
+    };
+
+    const container = d3.select("#boxplot-school");
+    if (container.empty()) return;
+
+    container.select("svg").remove();
+
+    const margin = { top: 50, right: 10, bottom: 50, left: 40 };
+    const height = 420;
+    const width =
+        container.node().getBoundingClientRect().width -
+        margin.left -
+        margin.right;
+
+    const svg = container.append("svg")
+        .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height}`)
+        .attr("width", "100%")
+        .attr("height", height);
+
+    const g = svg.append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    const innerHeight = height - margin.top - margin.bottom;
+
+    // ---- Data prep ----
+    const data = json
+        .map(d => ({
+            seed: d.properties.seed,
+            year: +d.properties.year,
+            site: d.properties.site,
+            school: d.properties.school_common_name,
+            distance: +d.properties.distance,
+        }))
+        .filter(d => !isNaN(d.distance));
+
+    const grouped = d3.group(data, d => d.seed);
+    const seeds = Array.from(grouped.keys()).sort((a, b) => +a - +b);
+
+    // ---- Boxplot stats ----
+    const stats = seeds.map(seed => {
+        const values = grouped.get(seed)
+            .map(d => d.distance)
+            .sort(d3.ascending);
+
+        const q1 = d3.quantile(values, 0.25);
+        const q3 = d3.quantile(values, 0.75);
+        const iqr = q3 - q1;
+
+        return {
+            seed,
+            min: d3.min(values),
+            // max: d3.max(values),
+            max: 2416.71687143,
+            q1,
+            q3,
+            median: d3.quantile(values, 0.5),
+            iqr,
+            values
+        };
+    });
+
+    // ---- Scales ----
+    const x = d3.scaleLinear()
+        .domain([0, d3.max(stats, d => d.max)])
+        .nice()
+        .range([0, width]);
+
+    const y = d3.scaleBand()
+        .domain(seeds)
+        .range([0, innerHeight])
+        .padding(0.4);
+
+    // // ---- Axes ----
+    // g.append("g")
+    //     .attr("transform", `translate(0, ${innerHeight})`)
+    //     .call(d3.axisBottom(x));
+
+    g.append("g")
+        .attr("transform", `translate(0, ${innerHeight})`)
+        .call(
+            d3.axisBottom(x)
+                .tickValues(
+                    d3.range(0, x.domain()[1] + 1, 500)
+                )
+        );
+
+
+
+    g.append("g")
+        .call(d3.axisLeft(y));
+
+    // ---- Boxplots ----
+    const boxHeight = y.bandwidth();
+
+    const box = g.selectAll(".box")
+        .data(stats)
+        .enter()
+        .append("g")
+        .attr("transform", d => `translate(0, ${y(d.seed)})`);
+
+    // IQR box
+    box.append("rect")
+        .attr("x", d => x(d.q1))
+        .attr("width", d => x(d.q3) - x(d.q1))
+        .attr("height", boxHeight)
+        .attr("fill", d => seedColors[+d.seed] || "#ccc")
+        .attr("opacity", 0.8)
+        .attr("stroke", d => seedColors[+d.seed])
+        .attr("stroke-width", 2);
+
+    // Median
+    box.append("line")
+        .attr("x1", d => x(d.median))
+        .attr("x2", d => x(d.median))
+        .attr("y1", 0)
+        .attr("y2", boxHeight)
+        .attr("stroke", "#111")
+        .attr("stroke-width", 2);
+
+    // Whisker line
+    box.append("line")
+        .attr("x1", d => x(d.min))
+        .attr("x2", d => x(d.max))
+        .attr("y1", boxHeight / 2)
+        .attr("y2", boxHeight / 2)
+        .attr("stroke", "#333")
+        .attr("stroke-width", 2);
+
+    // ---- Points ----
+    g.selectAll(".point")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", d => x(d.distance))
+        .attr("cy", d =>
+            y(d.seed) + y.bandwidth() / 2 +
+            (Math.random() - 0.5) * y.bandwidth() * 0.4
+        )
+        .attr("r", d => {
+            const s = stats.find(v => v.seed === d.seed);
+            // make outliers stand out
+            // return (d.distance < s.q1 - 1.5 * s.iqr ||
+            //     d.distance > s.q3 + 1.5 * s.iqr)
+            //     ? 5
+            //     : 3;
+            return 3
+        })
+        .attr("fill", "#E27600")
+        .attr("opacity", 0.45)
+
+        // ---------- INTERACTION ----------
+        .on("mouseover", function (event, d) {
+            const color =  "#000";
+
+            d3.select(this)
+                .attr("r", 7)
+                .attr("fill", color)
+                .attr("opacity", 1);
+
+            tooltip
+                .style("opacity", 1)
+                .html(`
+        <strong>${d.school}</strong><br/>
+        Site: ${d.site}<br/>
+        Year: ${+d.year}<br/>
+        Distance: ${d.distance.toFixed(1)} miles
+      `);
+        })
+
+        .on("mousemove", function (event) {
+            tooltip
+                .style("left", `${event.pageX + 10}px`)
+                .style("top", `${event.pageY - 28}px`);
+        })
+
+        .on("mouseout", function () {
+            d3.select(this)
+                .attr("r", 3)
+                .attr("fill", "#E27600")
+                .attr("opacity", 0.45);
+
+            tooltip.style("opacity", 0);
+        });
+
+
+    // ---- Titles ----
+    g.append("text")
+        .attr("x", width / 2)
+        .attr("y", -20)
+        .attr("text-anchor", "middle")
+        .style("font-size", "18px")
+        .style("font-weight", "bold")
+        .text("Travel Distance Distribution by Seed");
+
+    g.append("text")
+        .attr("x", width / 2)
+        .attr("y", innerHeight + 40)
+        .attr("text-anchor", "middle")
+        .style("font-size", "13px")
+        .text("Travel distance (miles)");
+
+    g.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -innerHeight / 2)
+        .attr("y", -margin.left + 15)
+        .attr("text-anchor", "middle")
+        .style("font-size", "13px")
+        // .style("font-weight", "600")
+        .text("Seeds");
+
+
+    const tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "chart-tooltip")
+        .style("position", "absolute")
+        .style("background", "#fff")
+        .style("border", "1px solid #ccc")
+        .style("border-radius", "4px")
+        .style("padding", "6px 8px")
+        .style("font-size", "12px")
+        .style("pointer-events", "none")
+        .style("opacity", 0);
+
+}

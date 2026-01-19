@@ -425,12 +425,7 @@ span.material-icons {
 }
 
 .chapter {
-    /*width: 5.25%;*/
-    /*background: #0146a1;*/
-    /*border: 1px solid rgba(255, 255, 255, 0.4);*/
     height: 0.75rem;
-    /*cursor: pointer;*/
-    /*width: 4.25%;*/
     width: 100%;
     background: #0146a1;
     border: 1px solid rgba(255, 255, 255, 0.4);

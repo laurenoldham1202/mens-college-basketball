@@ -42,6 +42,8 @@ function renderSeedBoxplot(json, schoolColorMap) {
     const grouped = d3.group(data, d => d.seed);
     const seeds = Array.from(grouped.keys()).sort((a, b) => +a - +b);
 
+    const seedDomain = ["All", ...seeds];
+
     // ---- Boxplot stats ----
     const stats = seeds.map(seed => {
         const values = grouped.get(seed)
@@ -52,9 +54,10 @@ function renderSeedBoxplot(json, schoolColorMap) {
         const q3 = d3.quantile(values, 0.75);
         const iqr = q3 - q1;
 
+        // console.log(d3.max(values))
         return {
             seed,
-            min: d3.min(values),
+            min: d3.min(values).toPrecision(2),
             max: d3.max(values),
             q1,
             q3,
@@ -64,6 +67,30 @@ function renderSeedBoxplot(json, schoolColorMap) {
         };
     });
 
+    const allValues = data
+        .map(d => d.distance)
+        .sort(d3.ascending);
+
+    const allStats = {
+        seed: "All",
+        mean: d3.mean(allValues),
+        min: d3.min(allValues),
+        q1: d3.quantile(allValues, 0.25),
+        median: d3.quantile(allValues, 0.5),
+        q3: d3.quantile(allValues, 0.75),
+        max: d3.max(allValues)
+    };
+
+    const overallLabels = [
+        { key: "min",    label: "Min",    value: allStats.min,    dx: 2 },
+        { key: "median", label: "Median", value: allStats.median, dx: 8 },
+        { key: "mean",   label: "Mean",   value: allStats.mean,   dx: 42 },
+        { key: "max",    label: "Max",    value: allStats.max,    dx: 0 }
+    ];
+
+
+
+
     // ---- Scales ----
     const x = d3.scaleLinear()
         .domain([0, d3.max(stats, d => d.max)])
@@ -71,9 +98,10 @@ function renderSeedBoxplot(json, schoolColorMap) {
         .range([0, width]);
 
     const y = d3.scaleBand()
-        .domain(seeds)
+        .domain(seedDomain)
         .range([0, innerHeight])
         .padding(0.4);
+
 
     // // ---- Axes ----
     // g.append("g")
@@ -93,6 +121,53 @@ function renderSeedBoxplot(json, schoolColorMap) {
 
     g.append("g")
         .call(d3.axisLeft(y));
+
+
+
+
+
+
+
+
+
+    const boxHeightAll = y.bandwidth();
+
+    const overall = g.append("g")
+        .attr("transform", `translate(0, ${y("All")})`);
+
+// IQR box
+    overall.append("rect")
+        .attr("x", x(allStats.q1))
+        .attr("width", x(allStats.q3) - x(allStats.q1))
+        .attr("height", boxHeightAll)
+        .attr("fill", "#eee")
+        .attr("stroke", "#444")
+        .attr("stroke-width", 2);
+
+// Median
+    overall.append("line")
+        .attr("x1", x(allStats.median))
+        .attr("x2", x(allStats.median))
+        .attr("y1", 0)
+        .attr("y2", boxHeightAll)
+        .attr("stroke", "#111")
+        .attr("stroke-width", 2);
+
+// Whisker
+    overall.append("line")
+        .attr("x1", x(allStats.min))
+        .attr("x2", x(allStats.max))
+        .attr("y1", boxHeightAll / 2)
+        .attr("y2", boxHeightAll / 2)
+        .attr("stroke", "#444")
+        .attr("stroke-width", 2);
+
+    
+    
+    
+    
+    
+    
 
     // ---- Boxplots ----
     const boxHeight = y.bandwidth();
@@ -130,6 +205,23 @@ function renderSeedBoxplot(json, schoolColorMap) {
         .attr("y2", boxHeight / 2)
         .attr("stroke", "#333")
         .attr("stroke-width", 2);
+
+    // points = g.selectAll(".point")
+    //     .data(pointData)
+    //     .enter()
+    //     .append("circle")
+    //     .attr("class", "point")
+    //     .attr("cx", d => x(d.distance))
+    //     .attr("cy", d => y(d.seed))
+    //     .attr("r", 3)
+    //     .attr("fill", "#999")
+    //     .attr("opacity", 0.35)
+    //     .attr("data-school", d => d.school_common_name);
+    //
+    // const comparisonLayer = g.append("g")
+    //     .attr("class", "comparison-layer");
+
+
 
     // ---- Points ----
     g.selectAll(".point")
@@ -226,5 +318,38 @@ function renderSeedBoxplot(json, schoolColorMap) {
         .style("font-size", "12px")
         .style("pointer-events", "none")
         .style("opacity", 0);
+
+    overall.selectAll(".overall-label")
+        .data(overallLabels)
+        .enter()
+        .append("text")
+        .attr("x", d => {
+            const px = x(d.value) + d.dx;
+
+            // Prevent overlap with left axis
+            return Math.max(px, 16);
+        })
+        .attr("y", -6)
+        .attr("text-anchor", "middle")
+        .style("font-size", "10px")
+        .style("font-weight", d =>
+            d.key === "median" || d.key === "mean" ? "600" : "400"
+        )
+        .style("fill", d =>
+            d.key === "mean" ? "#c00" : "#111"
+        )
+        .text(d => `${d.label}: ${Math.round(d.value)}`);
+
+
+    // overall mean line
+    overall.append("line")
+        .attr("x1", x(allStats.mean))
+        .attr("x2", x(allStats.mean))
+        .attr("y1", 0)
+        .attr("y2", y.bandwidth())
+        .attr("stroke", "#c00")
+        .attr("stroke-width", 2)
+        .attr("stroke-dasharray", "4,3");
+
 
 }

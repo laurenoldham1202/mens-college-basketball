@@ -1,15 +1,15 @@
-const data = [
+const dataAvg = [
     { seed: "1 SEED", miles: 353, color: "#80bad1" },
     { seed: "2 SEED", miles: 482, color: "#5694c1" },
     { seed: "3 SEED", miles: 689, color: "#2c6db1" },
     { seed: "4 SEED", miles: 829, color: "#0146a1" }
 ];
 
-const margin = { top: 40, right: 20, bottom: 50, left: 60 };
-const container = d3.select("#chart-chapter-5");
+const marginAvg = { top: 40, right: 20, bottom: 50, left: 60 };
+const containerAvg = d3.select("#chart-chapter-5");
 
 // Create SVG once
-const svg = container
+const svg = containerAvg
     .append("svg")
     .attr("preserveAspectRatio", "xMidYMid meet");
 
@@ -20,25 +20,25 @@ function render() {
     g.selectAll("*").remove();
 
     // Get container width
-    const containerWidth = container.node().getBoundingClientRect().width;
-    const width = containerWidth - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
+    const containerWidth = containerAvg.node().getBoundingClientRect().width;
+    const width = containerWidth - marginAvg.left - marginAvg.right;
+    const height = 400 - marginAvg.top - marginAvg.bottom;
 
     svg
         .attr("viewBox", `0 0 ${containerWidth} 400`)
         .attr("width", "100%")
         .attr("height", 400);
 
-    g.attr("transform", `translate(${margin.left}, ${margin.top})`);
+    g.attr("transform", `translate(${marginAvg.left}, ${marginAvg.top})`);
 
     // Scales
     const x = d3.scaleBand()
-        .domain(data.map(d => d.seed))
+        .domain(dataAvg.map(d => d.seed))
         .range([0, width])
         .padding(0.3);
 
     const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.miles)])
+        .domain([0, d3.max(dataAvg, d => d.miles)])
         .nice()
         .range([height, 0]);
 
@@ -52,7 +52,7 @@ function render() {
 
     // Bars
     g.selectAll(".bar")
-        .data(data)
+        .data(dataAvg)
         .enter()
         .append("rect")
         .attr("x", d => x(d.seed))
@@ -63,7 +63,7 @@ function render() {
 
     // Labels
     g.selectAll(".label")
-        .data(data)
+        .data(dataAvg)
         .enter()
         .append("text")
         .attr("x", d => x(d.seed) + x.bandwidth() / 2)
@@ -76,7 +76,7 @@ function render() {
         .attr("class", "y-axis-label")
         .attr("transform", "rotate(-90)")
         .attr("x", -height / 2)
-        .attr("y", -margin.left + 15)
+        .attr("y", -marginAvg.left + 15)
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
         .style("fill", "#000")

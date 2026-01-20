@@ -2,6 +2,17 @@
 
 [View live project here!](https://laurenoldham1202.github.io/mens-college-basketball/)
 
+#### 2026 Update
+This project was originally conceived of and created in 2019-2020 for my Masters of Science in Digital Mapping at University of Kentucky. 
+As of January 2026, it is being updated with new visualizations and streamlined storytelling.
+
+Stay tuned for more updates!
+
+_Last updated January 20, 2026_
+
+
+---
+
 ## I. Introduction
 
 Every year in March, college basketball fans anxiously await Selection Sunday to see if their team made the NCAA Men’s Basketball National Championship tournament, affectionately referred to as March Madness. March Madness is a three week-long single-elimination tournament in which 64 teams compete to take home the highly coveted National Championship title. The fun isn’t just reserved for fans - countless people from all across the globe fill out tournament brackets and bet on which teams will make deep runs and ultimately win it all.

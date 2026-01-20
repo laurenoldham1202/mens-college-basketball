@@ -594,6 +594,7 @@ function mouseOutChapter() {
 }
 
 function enterExploreMode(storyMode = false) {
+
     // remove story and toggle visibility of explore sidebar on
     story.detach();
     mapExplorer.css('visibility', 'visible');
@@ -922,8 +923,17 @@ function storyScroll(sites, schools) {
             } else if (id === 'chapter-19') {  // 19
                 storyModeConfDisplay(['Southeastern Conference', 'Big 12 Conference', 'Atlantic Coast Conference', 'Missouri Valley Conference', 'Mountain West Conference']);
             } else if (id === 'chapter-20') {  // 20
+                // resetAllFilters();
                 resetAllFilters();
+                // resetExtent(true);
                 resetExtent(true);
+                clearStoryLayers();
+
+
+                // reset to graduated circle style in final story slide
+                const prop = setProperty();
+                const stops = createStops(schools, prop);
+                map.setPaintProperty('schools', 'circle-radius', { property: prop, stops: stops });
             }
 
             // TODO Separate one and ten+ seed dropdowns
@@ -941,6 +951,7 @@ function storyScroll(sites, schools) {
 
             // if final chapter
             if (response.index === config.chapters.length - 1) {
+
                 // create new click event each time chapter is enter, or else unique div ID is overwritten
                 $('#explore-mode').on('click', () => {
                     enterExploreMode(true);
@@ -1734,6 +1745,7 @@ function pushSchoolsToInputs(input, school) {
 }
 
 function resetFilter(filter) {
+    map.setFilter('schools', null)
     // reset 'mean' instead of 'all' for statFilter and true for weighted toggle
     filter.val(filter === statFilter ? 'mean' : filter === weightedToggle ? false : 'all');
     filter.trigger(filter.val === weightedToggle ? 'click' : 'change');  // trigger change event
@@ -1813,7 +1825,7 @@ function fitMapBounds(layerGeometry, map) {
     const padding = isSmallScreen ? 250 : 50;  // if browser is small screen, increase padding - extra left for storymode
     map.fitBounds(turf.bbox(layerGeometry), { padding: 235,
             // {top: padding, right: padding, bottom: padding, left: isSmallScreen ? padding : 450},
-        duration: 000, offset: [120, 0] });
+        duration: 1000, offset: [120, 0] });
 }
 
 // TODO Add slider for numbers of appearances?

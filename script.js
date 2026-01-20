@@ -1811,9 +1811,9 @@ function resetExtent(storyMode = false) {
 function fitMapBounds(layerGeometry, map) {
     const isSmallScreen = window.innerWidth <= 1215;  // determine if browser is small screen
     const padding = isSmallScreen ? 250 : 50;  // if browser is small screen, increase padding - extra left for storymode
-    map.fitBounds(turf.bbox(layerGeometry), { padding:
-            {top: padding, right: padding, bottom: padding, left: isSmallScreen ? padding : 450},
-        duration: 3000 });
+    map.fitBounds(turf.bbox(layerGeometry), { padding: 235,
+            // {top: padding, right: padding, bottom: padding, left: isSmallScreen ? padding : 450},
+        duration: 000, offset: [120, 0] });
 }
 
 // TODO Add slider for numbers of appearances?
@@ -1846,73 +1846,133 @@ function selectStat(schools) {
     });
 }
 
-
 function updateSelectedSchool(schoolName) {
     selectedSchool = schoolName;
+    const {g,points,data,x,y,comparisonLayer,schoolColorMap,margin,width,overall,tooltip} = window._seedBoxplot;
 
-    const { points, data, x, y, comparisonLayer, schoolColorMap } = window._seedBoxplot;
+    if(schoolName==='all'){
+        // Reset all points
+        points.transition().duration(250).attr("r",3).attr("fill","#E27600").attr("stroke","none").attr("opacity",0.45);
 
-    // ---- Reset state ----
-    if (schoolName === 'all') {
-        points
-            .transition()
-            .duration(250)
-            .attr("r", 3)
-            .attr("opacity", 0.45)
-            .attr("fill", "#E27600");
+        // Reset boxplot elements
+        g.selectAll(".boxplot-element").transition().duration(250).attr("opacity",1);
+        overall.selectAll(".overall-label").transition().duration(250).attr("opacity",1);
 
+        // Clear comparison layer
         comparisonLayer.selectAll("*").remove();
+
+        // Enable tooltips for all schools
+        points.on("mouseover",function(event,d){
+            const color = schoolColorMap.get(d.school)||"#E27600";
+            d3.select(this).attr("r",6).attr("fill",color).attr("stroke","#000").attr("stroke-width",1.5).attr("opacity",1);
+            tooltip.style("opacity",1)
+                .html(`<strong>${d.school}</strong><br/>Seed: ${d.seed}<br/>Site: ${d.site}<br/>Year: ${d.year}<br/>Distance: ${d.distance.toFixed(1)} miles`)
+                .style("left",`${event.pageX+10}px`).style("top",`${event.pageY-28}px`);
+        })
+            .on("mousemove",function(event){
+                tooltip.style("left",`${event.pageX+10}px`).style("top",`${event.pageY-28}px`);
+            })
+            .on("mouseout",function(event,d){
+                d3.select(this).attr("r",3).attr("fill","#E27600").attr("stroke","none").attr("opacity",0.45);
+                tooltip.style("opacity",0);
+            });
+
         return;
     }
 
-    // ---- Highlight points (Option 2) ----
-    points
-        .transition()
-        .duration(250)
-        .attr("opacity", d =>
-            d.school === schoolName ? 0.9 : 0.08
-        )
-        .attr("r", d =>
-            d.school === schoolName ? 8 : 3
-        )
-        .attr("fill", d =>
-            d.school === schoolName
-                ? (schoolColorMap.get(d.school) || "#000")
-                : "#E27600"
-        );
+    // Dim boxplot elements
+    g.selectAll(".boxplot-element").transition().duration(250).attr("opacity",0.3);
+    overall.selectAll(".overall-label").transition().duration(250).attr("opacity",0.3);
 
-    // ---- Compute school stats ----
-    const schoolData = data.filter(d => d.school === schoolName);
-    if (!schoolData.length) return;
+    // Highlight points for selected school
+    points.transition().duration(250)
+        .attr("opacity", d=>d.school===schoolName?0.9:0.08)
+        .attr("r", d=>d.school===schoolName?8:3)
+        .attr("fill", d=>d.school===schoolName?(schoolColorMap.get(d.school)||"#000"):"#E27600")
+        .attr("stroke", d=>d.school===schoolName?"#000":"none")
+        .attr("stroke-width", d=>d.school===schoolName?1.5:0);
 
-    const mean = d3.mean(schoolData, d => d.distance);
+    // Compute school mean
+    const schoolData = data.filter(d=>d.school===schoolName);
+    if(!schoolData.length) return;
+    const mean = d3.mean(schoolData,d=>d.distance);
 
-    // ---- Comparison marker (Option 3) ----
+    // Comparison layer
     comparisonLayer.selectAll("*").remove();
 
+    // Halo line
     comparisonLayer.append("line")
-        .attr("x1", x(mean))
-        .attr("x2", x(mean))
-        .attr("y1", 0)
-        .attr("y2", y.range()[1])
-        .attr("stroke", schoolColorMap.get(schoolName) || "#000")
-        .attr("stroke-width", 2.5)
-        .attr("stroke-dasharray", "5,4");
+        .attr("x1",x(mean)).attr("x2",x(mean))
+        .attr("y1",0).attr("y2",y.range()[1])
+        .attr("stroke",schoolColorMap.get(schoolName)||"#000")
+        .attr("stroke-width",3)
+        .attr("stroke-opacity",0.3);
 
-    const schoolY = d3.mean(schoolData.map(d => y(d.seed) + y.bandwidth()/2));
+    // Main school mean line
+    comparisonLayer.append("line")
+        .attr("x1",x(mean)).attr("x2",x(mean))
+        .attr("y1",0).attr("y2",y.range()[1])
+        .attr("stroke",schoolColorMap.get(schoolName)||"#000")
+        .attr("stroke-width",2.5)
+        .attr("stroke-dasharray","5,4");
 
-    comparisonLayer.append("text")
-        .attr("x", x(mean) + 6)
-        .attr("y", schoolY)
-        .attr("text-anchor", "start")
-        .attr("dominant-baseline", "middle")
-        .style("font-size", "11px")
-        .style("font-weight", "600")
-        .style("fill", schoolColorMap.get(schoolName) || "#000")
-        .text(`${schoolName} avg`);
+    // Label at top (below title, above chart)
+    const labelColor = schoolColorMap.get(schoolName)||"#000";
+    const textColor = d3.hsl(labelColor).l>0.5?"#000":"#fff";
 
+    const labelText = `${schoolName} mean: ${Math.round(mean)} miles`;
 
+    // Create temporary text element to measure width
+    const tempText = g.append("text")
+        .style("font-size","12px")
+        .style("font-weight","600")
+        .text(labelText);
+    const bbox = tempText.node().getBBox();
+    tempText.remove();
+
+    const labelPadding = 8;
+    const labelWidth = bbox.width + labelPadding * 2;
+    const labelHeight = 20;
+
+    const labelGroup = comparisonLayer.append("g");
+
+    labelGroup.append("rect")
+        .attr("x",x(mean)-labelWidth/2)
+        .attr("y",-15)  // Changed from -35
+        .attr("width",labelWidth)
+        .attr("height",labelHeight)
+        .attr("fill",labelColor)
+        .attr("rx",3);
+
+    labelGroup.append("text")
+        .attr("x",x(mean))
+        .attr("y",-15+labelHeight/2)  // Changed from -35
+        .attr("text-anchor","middle")
+        .attr("dominant-baseline","middle")
+        .style("font-size","12px")
+        .style("font-weight","600")
+        .style("fill",textColor)
+        .text(labelText);
+
+    // Tooltip for selected school only
+    points.on("mouseover",function(event,d){
+        if(d.school!==schoolName) return;
+        const color = schoolColorMap.get(d.school)||"#000";
+        d3.select(this).attr("r",10).attr("fill",color).attr("stroke","#000").attr("stroke-width",2).attr("opacity",1);
+        tooltip.style("opacity",1)
+            .html(`<strong>${d.school}</strong><br/>Seed: ${d.seed}<br/>Site: ${d.site}<br/>Year: ${d.year}<br/>Distance: ${d.distance.toFixed(1)} miles`)
+            .style("left",`${event.pageX+10}px`).style("top",`${event.pageY-28}px`);
+    })
+        .on("mousemove",function(event){
+            tooltip.style("left",`${event.pageX+10}px`).style("top",`${event.pageY-28}px`);
+        })
+        .on("mouseout",function(event,d){
+            if(d.school!==schoolName) return;
+            d3.select(this).attr("r",8).attr("fill",schoolColorMap.get(d.school)||"#000").attr("stroke","#000").attr("stroke-width",1.5).attr("opacity",0.9);
+            tooltip.style("opacity",0);
+        });
 }
+
 
 
 function selectSchoolOnMap(map, sites, storyMode = false, input = filters.school) {  // TODO iterate over layer source instead of geojson directly
